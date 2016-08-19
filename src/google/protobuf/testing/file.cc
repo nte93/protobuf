@@ -140,31 +140,40 @@ void File::DeleteRecursively(const string& name,
   // in tests to delete temporary directories that are under /tmp anyway.
 
 #ifdef _MSC_VER
+
+#ifdef _UNICODE
+  typedef std::wstring tstring;
+#else
+  typedef std::string tstring;
+#endif
+  tstring tname(name.begin(), name.end());
+
   // This interface is so weird.
   WIN32_FIND_DATA find_data;
-  HANDLE find_handle = FindFirstFile((name + "/*").c_str(), &find_data);
+  HANDLE find_handle = FindFirstFile((tname + "/*").c_str(), &find_data);
   if (find_handle == INVALID_HANDLE_VALUE) {
     // Just delete it, whatever it is.
-    DeleteFile(name.c_str());
-    RemoveDirectory(name.c_str());
+    DeleteFile(tname.c_str());
+    RemoveDirectory(tname.c_str());
     return;
   }
 
   do {
-    string entry_name = find_data.cFileName;
+    tstring entry_name = find_data.cFileName;
     if (entry_name != "." && entry_name != "..") {
-      string path = name + "/" + entry_name;
+      tstring tpath = tname + "/" + entry_name;
+      string path(tpath.begin(), tpath.end())
       if (find_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
         DeleteRecursively(path, NULL, NULL);
-        RemoveDirectory(path.c_str());
+        RemoveDirectory(tpath.c_str());
       } else {
-        DeleteFile(path.c_str());
+        DeleteFile(tpath.c_str());
       }
     }
   } while(FindNextFile(find_handle, &find_data));
   FindClose(find_handle);
 
-  RemoveDirectory(name.c_str());
+  RemoveDirectory(tname.c_str());
 #else
   // Use opendir()!  Yay!
   // lstat = Don't follow symbolic links.
