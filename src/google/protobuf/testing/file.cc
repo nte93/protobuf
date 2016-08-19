@@ -40,6 +40,7 @@
 #include <windows.h>         // Find*File().  :(
 #include <io.h>
 #include <direct.h>
+#include <tchar.h>
 #else
 #include <dirent.h>
 #include <unistd.h>
