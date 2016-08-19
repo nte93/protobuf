@@ -163,7 +163,7 @@ void File::DeleteRecursively(const string& name,
     tstring entry_name = find_data.cFileName;
     if (entry_name != _T(".") && entry_name != _T("..")) {
       tstring tpath = tname + _T("/") + entry_name;
-      string path(tpath.begin(), tpath.end())
+      string path(tpath.begin(), tpath.end());
       if (find_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
         DeleteRecursively(path, NULL, NULL);
         RemoveDirectory(tpath.c_str());
