@@ -1465,7 +1465,7 @@ TEST_F(CommandLineInterfaceTest, GeneratorPluginNotFound) {
       "--proto_path=$tmpdir error.proto");
 
 #ifdef _WIN32
-  ExpectErrorSubstring("--badplug_out: prefix-gen-badplug: " +
+  ExpectErrorSubstring("--badplug_out: prefix-gen-badplug: broken " +
       Subprocess::Win32ErrorMessage(ERROR_FILE_NOT_FOUND));
 #else
   // Error written to stdout by child process after exec() fails.
