@@ -720,7 +720,7 @@ TEST_F(CommandLineInterfaceTest, TrailingBackslash) {
 }
 
 TEST_F(CommandLineInterfaceTest, Win32ErrorMessage) {
-  EXPECT_EQ("The system cannot find the file specified.",
+  EXPECT_EQ("The system cannot find the file specified.\r\n",
     Subprocess::Win32ErrorMessage(ERROR_FILE_NOT_FOUND));
 }
 
