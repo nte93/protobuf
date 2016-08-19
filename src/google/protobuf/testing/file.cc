@@ -150,7 +150,7 @@ void File::DeleteRecursively(const string& name,
 
   // This interface is so weird.
   WIN32_FIND_DATA find_data;
-  HANDLE find_handle = FindFirstFile((tname + "/*").c_str(), &find_data);
+  HANDLE find_handle = FindFirstFile((tname + _T("/*")).c_str(), &find_data);
   if (find_handle == INVALID_HANDLE_VALUE) {
     // Just delete it, whatever it is.
     DeleteFile(tname.c_str());
@@ -160,8 +160,8 @@ void File::DeleteRecursively(const string& name,
 
   do {
     tstring entry_name = find_data.cFileName;
-    if (entry_name != "." && entry_name != "..") {
-      tstring tpath = tname + "/" + entry_name;
+    if (entry_name != _T(".") && entry_name != _T("..")) {
+      tstring tpath = tname + _T("/") + entry_name;
       string path(tpath.begin(), tpath.end())
       if (find_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
         DeleteRecursively(path, NULL, NULL);
