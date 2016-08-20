@@ -147,34 +147,34 @@ void File::DeleteRecursively(const string& name,
 #else
   typedef std::string tstring;
 #endif
-  tstring tname(name.begin(), name.end());
+  tstring t_name(name.begin(), name.end());
 
   // This interface is so weird.
   WIN32_FIND_DATA find_data;
-  HANDLE find_handle = FindFirstFile((tname + _T("/*")).c_str(), &find_data);
+  HANDLE find_handle = FindFirstFile((t_name + _T("/*")).c_str(), &find_data);
   if (find_handle == INVALID_HANDLE_VALUE) {
     // Just delete it, whatever it is.
-    DeleteFile(tname.c_str());
-    RemoveDirectory(tname.c_str());
+    DeleteFile(t_name.c_str());
+    RemoveDirectory(t_name.c_str());
     return;
   }
 
   do {
-    tstring entry_name = find_data.cFileName;
-    if (entry_name != _T(".") && entry_name != _T("..")) {
-      tstring tpath = tname + _T("/") + entry_name;
-      string path(tpath.begin(), tpath.end());
+    tstring t_entry_name = find_data.cFileName;
+    if (t_entry_name != _T(".") && t_entry_name != _T("..")) {
+      tstring t_path = t_name + _T("/") + t_entry_name;
+      string path(t_path.begin(), t_path.end());
       if (find_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
         DeleteRecursively(path, NULL, NULL);
-        RemoveDirectory(tpath.c_str());
+        RemoveDirectory(t_path.c_str());
       } else {
-        DeleteFile(tpath.c_str());
+        DeleteFile(t_path.c_str());
       }
     }
   } while(FindNextFile(find_handle, &find_data));
   FindClose(find_handle);
 
-  RemoveDirectory(tname.c_str());
+  RemoveDirectory(t_name.c_str());
 #else
   // Use opendir()!  Yay!
   // lstat = Don't follow symbolic links.
