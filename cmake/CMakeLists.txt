@@ -32,7 +32,6 @@ option(protobuf_WITH_ZLIB "Build with zlib support" ${protobuf_WITH_ZLIB_DEFAULT
 set(protobuf_DEBUG_POSTFIX "d"
   CACHE STRING "Default debug postfix")
 mark_as_advanced(protobuf_DEBUG_POSTFIX)
-option(UNICODE "Build with Unicode support" OFF)
 # User options
 include(protobuf-options.cmake)
 
