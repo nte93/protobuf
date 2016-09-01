@@ -162,7 +162,7 @@ void File::DeleteRecursively(const string& name,
       }
     }
   } while(FindNextFileA(find_handle, &find_data));
-  FindCloseA(find_handle);
+  FindClose(find_handle);
 
   RemoveDirectoryA(name.c_str());
 #else
